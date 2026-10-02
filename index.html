@@ -4,307 +4,223 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Portfolio Hub - เมทิดา ตั้งเกียรติกร</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts - Inter & Prompt -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
         body {
-            background-color: #0f1026;
-            color: #ffffff;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            font-family: 'Prompt', sans-serif;
+            background: #030712;
+            color: #f3f4f6;
+            overflow-x: hidden;
         }
-        .container {
-            width: 100%;
-            max-width: 850px;
+        /* Animated Background Glowing Orbs */
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 10s ease-in-out infinite alternate;
         }
-        .header {
-            margin-bottom: 35px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 20px;
+        @keyframes float {
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(-40px) scale(1.1); }
         }
-        .header-left {
-            flex: 1;
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .badge {
-            background-color: #2b2356;
-            color: #8b85ff;
-            font-size: 11px;
-            font-weight: bold;
-            padding: 6px 12px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: inline-block;
-            margin-bottom: 15px;
-            border: 1px solid #483fa3;
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.3);
         }
-        h1 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #ffffff;
-            line-height: 1.3;
-        }
-        .subtitle {
-            color: #94a3b8;
-            font-size: 15px;
-        }
-        .student-card {
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-            border: 1px solid #4f46e5;
-            border-radius: 16px;
-            padding: 18px 24px;
-            min-width: 280px;
-            box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.3);
-        }
-        .student-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .student-info {
-            font-size: 13px;
-            color: #c7d2fe;
-            display: flex;
-            gap: 15px;
-        }
-        .card {
-            background-color: #1a1b3c;
-            border: 1px solid #2d2f63;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .glow-btn {
+            position: relative;
             transition: all 0.3s ease;
         }
-        .card:hover {
-            border-color: #483fa3;
-            background-color: #1f2042;
-        }
-        .card-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .number-box {
-            background-color: #2b2356;
-            color: #a5b4fc;
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 18px;
-            flex-shrink: 0;
-            border: 1px solid #483fa3;
-        }
-        .card-info {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .tag-row {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        .source-tag {
-            font-size: 12px;
-            color: #a5b4fc;
-            font-weight: 500;
-        }
-        .sub-tag {
-            font-size: 11px;
-            background-color: #312e81;
-            color: #c7d2fe;
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #ffffff;
-        }
-        .card-desc {
-            font-size: 13px;
-            color: #94a3b8;
-        }
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            flex-shrink: 0;
-        }
-        .btn {
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .btn-primary {
-            background-color: #4f46e5;
-            color: #ffffff;
-        }
-        .btn-primary:hover {
-            background-color: #4338ca;
-        }
-        .btn-success {
-            background-color: #059669;
-            color: #ffffff;
-        }
-        .btn-success:hover {
-            background-color: #047857;
-        }
-        .btn-secondary {
-            background-color: #334155;
-            color: #cbd5e1;
-        }
-        .btn-secondary:hover {
-            background-color: #475569;
-        }
-        @media (max-width: 768px) {
-            .card {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-            }
-            .btn-group {
-                width: 100%;
-                justify-content: flex-end;
-            }
+        .glow-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.5);
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 relative">
 
-<div class="container">
-    <div class="header">
-        <div class="header-left">
-            <span class="badge">Student Portfolio Hub</span>
-            <h1>ผลงานรายวิชา Graph Database Neo4j, Python และ Streamlit</h1>
-            <p class="subtitle">รวบรวมชิ้นงาน รายงาน และโปรเจกต์รายวิชาในภาคเรียนนี้ทั้งหมด</p>
-        </div>
-        <div class="student-card">
-            <div class="student-name">👩‍💻 เมทิดา ตั้งเกียรติกร</div>
-            <div class="student-info">
-                <span>รหัส: 664245044</span>
-                <span>หมู่เรียน: 66/44</span>
+    <!-- Background Orbs -->
+    <div class="blob w-96 h-96 bg-indigo-600 rounded-full top-10 left-1/4"></div>
+    <div class="blob w-96 h-96 bg-purple-600 rounded-full top-1/2 right-1/4" style="animation-delay: -5s;"></div>
+    <div class="blob w-80 h-80 bg-pink-600 rounded-full bottom-10 left-1/3" style="animation-delay: -2s;"></div>
+
+    <div class="max-w-4xl mx-auto">
+        
+        <!-- Header Section with Student Info Badge -->
+        <header class="mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 animate-fade-in">
+            <div>
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-4 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+                    STUDENT PORTFOLIO HUB
+                </span>
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-indigo-200 to-indigo-400 tracking-tight leading-tight">
+                    ผลงานรายวิชา Graph Database Neo4j, Python และ Streamlit
+                </h1>
+                <p class="text-gray-400 text-sm sm:text-base mt-2">
+                    รวบรวมชิ้นงาน รายงาน และโปรเจกต์รายวิชาในภาคเรียนนี้ทั้งหมด
+                </p>
             </div>
-        </div>
-    </div>
 
-    <!-- Homework 1 -->
-    <div class="card">
-        <div class="card-left">
-            <div class="number-box">01</div>
-            <div class="card-info">
-                <div class="tag-row">
-                    <span class="source-tag">Google Drive</span>
+            <!-- Student Profile Card -->
+            <div class="glass-card p-5 rounded-2xl w-full md:w-auto min-w-[280px] shadow-xl border-l-4 border-l-indigo-500">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-md">
+                        ม
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold text-white">เมทิดา ตั้งเกียรติกร</h2>
+                        <p class="text-xs text-indigo-300 font-medium">รหัสนักศึกษา: 664245044</p>
+                    </div>
                 </div>
-                <div class="card-title">Homework 1</div>
-                <div class="card-desc">เอกสารและเนื้อหาการบ้านผ่าน Google Drive</div>
-            </div>
-        </div>
-        <div class="btn-group">
-            <a href="https://drive.google.com/file/d/195OTgQgF9lz4uJueSwem0tB-utxhfvqG/view?usp=sharing" target="_blank" class="btn btn-primary">เปิดดูงาน</a>
-        </div>
-    </div>
-
-    <!-- Homework 2 -->
-    <div class="card">
-        <div class="card-left">
-            <div class="number-box">02</div>
-            <div class="card-info">
-                <div class="tag-row">
-                    <span class="source-tag">GitHub PDF (ออนไลน์)</span>
+                <div class="mt-3 pt-3 border-t border-gray-800 flex justify-between items-center text-xs text-gray-400">
+                    <span>หมู่เรียน: <strong class="text-indigo-400">66/44</strong></span>
+                    <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-medium">Active Status</span>
                 </div>
-                <div class="card-title">Homework 2</div>
-                <div class="card-desc">รายงานไฟล์ PDF พรีวิวอ่านบนเว็บได้ทันที</div>
             </div>
-        </div>
-        <div class="btn-group">
-            <a href="https://github.com/meenmethida2004/methida044.github.io/blob/main/Homework2.pdf" target="_blank" class="btn btn-success">📖 อ่านบนเว็บ</a>
-            <a href="https://github.com/meenmethida2004/methida044.github.io/raw/main/Homework2.pdf" target="_blank" class="btn btn-secondary">ดาวน์โหลด</a>
-        </div>
-    </div>
+        </header>
 
-    <!-- Homework 3 -->
-    <div class="card">
-        <div class="card-left">
-            <div class="number-box">03</div>
-            <div class="card-info">
-                <div class="tag-row">
-                    <span class="source-tag">Google Drive</span>
+        <!-- Portfolio Items List -->
+        <main class="space-y-4">
+
+            <!-- Homework 1 -->
+            <div class="glass-card p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                <div class="flex items-start sm:items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-lg shrink-0">
+                        01
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-medium text-indigo-400 bg-indigo-500/10 px-2.5 py-0.5 rounded-md">Google Drive</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Homework 1</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 mt-0.5">เอกสารและเนื้อหาการบ้านผ่าน Google Drive</p>
+                    </div>
                 </div>
-                <div class="card-title">Homework 3</div>
-                <div class="card-desc">เอกสารและเนื้อหาการบ้านผ่าน Google Drive</div>
-            </div>
-        </div>
-        <div class="btn-group">
-            <a href="https://drive.google.com/file/d/1brrwQcPTWaQmoE55kFsfqTfOv-6B-v_I/view?usp=sharing" target="_blank" class="btn btn-primary">เปิดดูงาน</a>
-        </div>
-    </div>
-
-    <!-- Homework 4 -->
-    <div class="card">
-        <div class="card-left">
-            <div class="number-box">04</div>
-            <div class="card-info">
-                <div class="tag-row">
-                    <span class="source-tag">Google Drive</span>
+                <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                    <a href="https://drive.google.com/file/d/195OTgQgF9lz4uJueSwem0tB-utxhfvqG/view?usp=sharing" target="_blank" class="glow-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-indigo-600 hover:bg-indigo-500 text-white flex items-center gap-2 shadow-lg shadow-indigo-600/30">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                        เปิดดูงาน
+                    </a>
                 </div>
-                <div class="card-title">Homework 4</div>
-                <div class="card-desc">เอกสารและเนื้อหาการบ้านผ่าน Google Drive</div>
             </div>
-        </div>
-        <div class="btn-group">
-            <a href="https://drive.google.com/file/d/1j4hB6eUmzOdE6d2PbIbDTpwTme7gRrmD/view?usp=sharing" target="_blank" class="btn btn-primary">เปิดดูงาน</a>
-        </div>
-    </div>
 
-    <!-- Homework 5 (Graph Database & Anime Recommendation) -->
-    <div class="card">
-        <div class="card-left">
-            <div class="number-box">05</div>
-            <div class="card-info">
-                <div class="tag-row">
-                    <span class="source-tag">Featured Project</span>
-                    <span class="sub-tag">Drive & PDF พรีวิวได้</span>
+            <!-- Homework 2 -->
+            <div class="glass-card p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                <div class="flex items-start sm:items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg shrink-0">
+                        02
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-medium text-purple-400 bg-purple-500/10 px-2.5 py-0.5 rounded-md">GitHub PDF (ออนไลน์)</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Homework 2</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 mt-0.5">รายงานไฟล์ PDF พรีวิวอ่านบนเว็บได้ทันที</p>
+                    </div>
                 </div>
-                <div class="card-title">Homework 5</div>
-                <div class="card-desc">ระบบแนะนำอนิเมะด้วย Machine Learning</div>
+                <div class="flex items-center gap-3 w-full sm:w-auto justify-end flex-wrap">
+                    <a href="https://github.com/meenmethida2004/methida044.github.io/blob/main/Homework2.pdf" target="_blank" class="glow-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-600 hover:bg-emerald-500 text-white flex items-center gap-2 shadow-lg shadow-emerald-600/30">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                        อ่านบนเว็บ
+                    </a>
+                    <a href="https://github.com/meenmethida2004/methida044.github.io/raw/main/Homework2.pdf" target="_blank" class="glow-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        ดาวน์โหลด
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="btn-group">
-            <a href="https://github.com/meenmethida2004/methida044.github.io/blob/main/Anime-Recommendation.pdf" target="_blank" class="btn btn-success">📖 พรีวิวรายงาน PDF</a>
-            <a href="https://drive.google.com/file/d/1WfixXKr1e88eHTUfKgqzmIYbzOizNKAx/view?usp=sharing" target="_blank" class="btn btn-secondary">🔗 เปิดลิงก์ Drive</a>
-        </div>
-    </div>
 
-</div>
+            <!-- Homework 3 -->
+            <div class="glass-card p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                <div class="flex items-start sm:items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-lg shrink-0">
+                        03
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-medium text-indigo-400 bg-indigo-500/10 px-2.5 py-0.5 rounded-md">Google Drive</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Homework 3</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 mt-0.5">เอกสารและเนื้อหาการบ้านผ่าน Google Drive</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                    <a href="https://drive.google.com/file/d/1brrwQcPTWaQmoE55kFsfqTfOv-6B-v_I/view?usp=sharing" target="_blank" class="glow-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-indigo-600 hover:bg-indigo-500 text-white flex items-center gap-2 shadow-lg shadow-indigo-600/30">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                        เปิดดูงาน
+                    </a>
+                </div>
+            </div>
+
+            <!-- Homework 4 -->
+            <div class="glass-card p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                <div class="flex items-start sm:items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-lg shrink-0">
+                        04
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-medium text-indigo-400 bg-indigo-500/10 px-2.5 py-0.5 rounded-md">Google Drive</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Homework 4</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 mt-0.5">เอกสารและเนื้อหาการบ้านผ่าน Google Drive</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                    <a href="https://drive.google.com/file/d/1j4hB6eUmzOdE6d2PbIbDTpwTme7gRrmD/view?usp=sharing" target="_blank" class="glow-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-indigo-600 hover:bg-indigo-500 text-white flex items-center gap-2 shadow-lg shadow-indigo-600/30">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                        เปิดดูงาน
+                    </a>
+                </div>
+            </div>
+
+            <!-- Homework 5 (Featured Project) -->
+            <div class="glass-card p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 border-indigo-500/30 bg-gradient-to-r from-indigo-950/30 via-purple-950/20 to-transparent">
+                <div class="flex items-start sm:items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 text-white flex items-center justify-center font-bold text-lg shrink-0 shadow-lg shadow-indigo-500/30">
+                        05
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1 flex-wrap">
+                            <span class="text-xs font-semibold text-pink-300 bg-pink-500/20 border border-pink-500/30 px-2.5 py-0.5 rounded-md">⭐ Featured Project</span>
+                            <span class="text-xs font-medium text-purple-300 bg-purple-500/20 px-2.5 py-0.5 rounded-md">Drive & PDF</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Homework 5</h3>
+                        <p class="text-xs sm:text-sm text-indigo-200 mt-0.5 font-medium">ระบบแนะนำอนิเมะด้วย Machine Learning</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 w-full sm:w-auto justify-end flex-wrap">
+                    <a href="https://github.com/meenmethida2004/methida044.github.io/blob/main/Anime-Recommendation.pdf" target="_blank" class="glow-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-600 hover:bg-emerald-500 text-white flex items-center gap-2 shadow-lg shadow-emerald-600/30">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                        พรีวิวรายงาน PDF
+                    </a>
+                    <a href="https://drive.google.com/file/d/1WfixXKr1e88eHTUfKgqzmIYbzOizNKAx/view?usp=sharing" target="_blank" class="glow-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                        เปิดลิงก์ Drive
+                    </a>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-16 text-center text-xs text-gray-500">
+            <p>© 2026 เมทิดա ตั้งเกียรติกร • Student Portfolio Hub. All rights reserved.</p>
+        </footer>
+
+    </div>
 
 </body>
 </html>
